@@ -1,4 +1,4 @@
-#Opis projekta
+# Opis projekta
 
 Tema ovog projekta je izrada Web shopa za prodaju narukvica od konca.
 
@@ -7,7 +7,7 @@ U svom osnovnom paketu nema puno usluga ali je lako proširiv - Flask ekstenzije
 omogućuju da se web aplikacije lako prošire prema potrebama projekta.
 U dokumentu requirements.txt navedeni su potrebni paketi koji su korišteni pri izradi projekta.
 
-##Struktura
+## Struktura
 
 Projekt ima svoje pripadajuće virtualno okruženje u mapi venv.
 Ostali elementi projekta su:
@@ -18,7 +18,7 @@ requirements.txt - potrebni paketi
 sqlConnector.py - datoteka za punjenje baze potrebnim podacima
 webshopDB.sqlite - baza za pohranu podataka
 
-##Tok rada aplikacije
+## Tok rada aplikacije
 
 Aplikacija se sastoji od base.html - baza koja uključuje zagljavlje i podnože koji se nasljeđuju na sve ostale html datoteke,
 index.html - naslovna stranica aplikacije
