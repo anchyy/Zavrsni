@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+       
+{% block body %}
+
+
+
+<div class="jumbotron">
+    <div class="container thumbs">
+        <div class="col-sm-4" >
+        <br>
+        <h3>Prijava</h3>
+        <br>
+        <br>
+         <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.email.label }}
+                {{ form.email(size=32, class="form-control") }}
+                {% for message in get_flashed_messages() %}
+                <span style="color: red;">[{{ message }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.password.label }}
+                {{ form.password(size=32, class="form-control") }}
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            <br>
+            </p>
+            <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+            
+            <button type="button" >{{ form.submit(class="btn btn-primary btn-sm") }}</button>
+            
+        
+        </form>
+        </div>
+
+    
+    </div>
+    
+</div>
+
+ 
+
+
+
+ 
+
+
+ {% endblock %}

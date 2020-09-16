@@ -1,0 +1,177 @@
+
+
+{% extends "base.html" %}
+       
+{% block body %}
+
+
+<body class="animsition">
+			<!-- Information for deliver/edit -->
+		<section class="sec-product-detail bg0 p-t-65 p-b-60">
+			<div class="container">
+				
+			<div class="row" style="margin-top: 20px;">
+				{% if result %}
+			</br>
+				<div class="col-sm-4 ">
+					<h3>Podaci za dostavu</h3>
+					<div class="form-control">
+					<form action="order" method="POST" >
+						<ul class="lista">
+							
+								{{ form.hidden_tag() }}
+
+								<li>
+									{{ form.name.label }}
+									{{ form.name(class="form-control"  )}}
+								</li>
+								<li>
+									{{ form.surname.label }}
+									{{ form.surname(class="form-control"  )}}
+								</li>
+							
+								<li>
+									{{ form.telephone.label }}
+									{{ form.telephone(class="form-control"  )}}
+								</li>
+								<li>
+									{{ form.address.label }}
+									{{ form.address(class="form-control"  ) }}
+								</li>
+							
+						</ul>
+					</br>
+					<button type="submit">{{ form.submit(class='btn btn-default ') }}</button>
+				
+					</form>
+			</div></div>
+
+
+			<div class="col-sm-8">
+				<div class="card">
+					<div class="card-body">
+						<h3>Metoda dostave</h3> 
+						<p>Hrvatska pošta<br>Hpekspress dostava. 
+						</p>
+						<h3>Informacije o plaćanju</h3>
+						<input type="radio" id="" name="" value="cashondelivery" checked>
+						<label for="male">Plaćanje pouzećem</label><br>
+						 
+					</div>
+				</div>
+				<hr/>
+				<div class="form-control">
+				<table class="table-shopping-cart">
+					<tr class="table_head">
+						<th class="column-1">Proizvod</th> 
+						<th class="column-3">Cijena</th>
+						<th class="column-4">Količina</th>
+						<th class="column-5">Ukupno</th>
+					</tr> 
+				
+					{% for i in result %} 
+					{% set total = i.quantity * i.product.price %} 
+					<tr class="">
+						 
+						<td class="column-2">{{i.product.web_name}}</td>
+						<td class="column-3">{{'%0.2f'| format(i.product.price|float)}} kn</td>
+						<td class="column-4">{{i.quantity}}
+							<!-- <div class="wrap-num-product flex-w m-l-auto m-r-0">
+								<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+
+									<i class="fs-16 zmdi zmdi-minus"></i>
+								</div>
+								
+								<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="{{i.quantity}}">
+
+								<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+									<i class="fs-16 zmdi zmdi-plus"></i>
+								</div>
+							</div> -->
+						</td>
+						<td class="column-5">{{'%0.2f'| format(total|float)}} kn</td>
+					</tr>
+					{% endfor %}
+				</table>
+
+			</br>
+	 
+				<p style="float: right;font-weight: bold;">Ukupan iznos: &nbsp;&nbsp;{{'%0.2f'| format(total_amount|float)}} kn</p>
+				
+		
+		</br>
+	</div>
+		<hr/>
+
+				<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+					<a href="/order_complete">POTVRDI KUPNJU ></a>
+				</button>
+			
+			</div>
+		 
+			{% else %}
+			<div class="col-sm-12">
+			</br>
+			<p>Poštovani, Vaša narudžba je zaprimljena. Hvala na kupnji.</p>
+		</div>
+		{% endif %}
+		   
+			</div>
+			</div>
+			</section>
+
+
+ 
+
+			
+	 
+
+		<!-- Back to top -->
+		<div class="btn-back-to-top" id="myBtn">
+			<span class="symbol-btn-back-to-top">
+				<i class="zmdi zmdi-chevron-up"></i>
+			</span>
+		</div>
+{%  endblock %}
+
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>

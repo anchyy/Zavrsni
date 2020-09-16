@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+
+
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="margin-top: 5%!important; background-image: url('/static/images/bg_about_1.jpg');">
+		<h2 class="ltext-105 cl0 txt-center">
+			O meni
+		</h2>
+	</section>	
+
+
+	<!-- Content page -->
+	<section class="bg0 p-t-75 p-b-120">
+		<div class="container">
+			<div class="row p-b-148">
+				<div class="col-md-7 col-lg-8">
+					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							Moja priča
+						</h3>
+
+						<p class="stext-113 cl6 p-b-26">
+							Zovem se Tanja Bašić. Rođena sam u Zadru, 1988.godine. Magistrica sam ekonomije. Prvi put počela sam izrađivati narukvice prije pet godina. Zbog ne pronalaska posla u struci i viška slobodnog vremena usmjerila sam se na hobije. Htjela sam se vraitit u svoje djetinjstvo koje je bilo prekrsano, na otoku Viru. Igrom slučaja pronašla sam svoje stare narukvice iz osnovne škole. I tako je krenula moja priča sa narukvicama od konca.
+						</p>
+
+						<p class="stext-113 cl6 p-b-26">
+						   Inspiraciju pronalazim u svemu oko sebe. Priroda je uvijek bila neiscrpan izvor inspiracije, pa tako i meni. Cvijeće u raznim bojama me inspirira da izradim narukvice u takvim tonovima. Odjeća - npr. neka odjevna kombinacija mi daje isnpiraciju za oblike i tonove narukvica kako bi se savršeno uklopile u kombinaciju. Nadalje to je hrana, narukvice u bojama sladoleda, voća i slično. U principu sve ono što mi u određenom trenutku zapne za oko i dođe do mog srca inspirira me da izradim neku narukvicu.
+						</p>
+
+						<p class="stext-113 cl6 p-b-26">
+							Za bilo koju informaciju možete mi se obratiti osobno na mail ili putem društvenih mreža. Sve informacije o kontaktu možete pronači u rubriki Kontakt.
+						</p>
+					</div>
+				</div>
+
+				<div class="col-11 col-md-5 col-lg-4 m-lr-auto">
+					<div class="how-bor1 ">
+						<div class="hov-img0">
+							<img src="/static/images/about_02.jpg" alt="IMG">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
+					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							Moja misija
+						</h3>
+
+						<p class="stext-113 cl6 p-b-26">
+							Oduvijek sam odječu i sve dodatne rekvizite doživljavala kao nekakvu poruku kojom svijetu oko sebe poručujemo kakve smo osobe, kako se osječamo. Onime što nosimo izražavamo svoju osobnost. Moje narukvice namijenjen su oni osobama koje žele upotpuniti svoju osobnost i svoj stil. S obzirom da su sve narukvice ručno rađene uvijek postoji indivudualni pristup svakom korisniku u vidu ispunjavanja želja. Narukvice su idalne i kao poklon. Uvije se mogu kombinirati različiti elementi narukvice kako bise poklon prilagodio osobi kojoj se poklanja.
+						</p>
+
+						<div class="bor16 p-l-29 p-b-9 m-t-22">
+							<p class="stext-114 cl6 p-r-40 p-b-11">
+								Creativity is just connecting things. When you ask creative people how they did something, they feel a little guilty because they didn't really do it, they just saw something. It seemed obvious to them after a while.
+							</p>
+
+							<span class="stext-111 cl8">
+								- Steve Job’s 
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="order-md-1 col-11 col-md-5 col-lg-4 m-lr-auto p-b-30">
+					<div class="how-bor2">
+						<div class="hov-img0">
+							<img src="/static/images/about_04.jpg" alt="IMG">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>	
+	
+		
+
+{% endblock %}
+
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+	
+</body>
+</html>
