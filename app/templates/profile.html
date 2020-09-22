@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class= " " style="margin-top: 8%;">
+    <div class="container thumbs">
+        <div class="content-section">
+            <h2>Osobni podaci</h2>
+            <hr/>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <p><i class="fa fa-user"></i> Ime i Prezime: {{user.name}} {{user.surname}}</p>
+                <br>
+                <p class="text-secondary"><i class="fa fa-address-card"></i> Adresa: {{user.address}}</p>
+
+            </div>
+            <div class="col-sm-4">
+                <p class="text-secondary"><i class="fa fa-envelope"></i>  Email: {{user.email}}</p>
+                <br>
+                <p class="text-secondary"><i class="fa fa-phone"></i> Telefon: {{user.telephone}}</p>
+            </div>
+        </div>
+    </div>
+        <br> <br>
+        <div class="container thumbs">
+            <div class="content-section">
+                <h2>Povijest narudžbi</h2>
+                <hr/>
+            <div class="row">
+           
+                {% for o in result %}  
+                <div class="col-sm-12">  
+                <p>
+                    <a style="color: #666666;" data-toggle="collapse" href="#collapseExample{{o.order_number}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <span style="float: left;"><i class="fa fa-plus"></i> Broj narudzbe: {{o.order_number}}</span>
+                        <span style="float: right;">{{o.create_date}}</span>
+                    </a>                 
+                  </p>
+              
+                </div>  
+                <div class="col-sm-12">  
+                  <div class="collapse" id="collapseExample{{o.order_number}}">
+                    <div class="card card-body">
+                     <p>Proizvodi</p><br>
+                        <table class="table-shopping-cart">
+                            {% for i in o.products %}
+                          <tr>
+                            <td> <img src="/{{i.image}}" style="width: 50px; height: 50px;"></td>
+                            <td style="width: 89%;">
+                                 {{i.web_name}}</td>                             
+                            {% endfor %}
+                        </tr>
+                        </table>
+
+                    </div>
+                  </div>            
+               
+           
+            </div>
+            <hr/>
+            <br>
+            {% endfor %}
+        </div>
+            </div>
+
+        </div>
+        <br>
+        <br>
+        </div>
+    
+
+</div>
+
+{% endblock %}

@@ -12,113 +12,34 @@ from flask_login import  LoginManager, current_user, login_user, UserMixin, logo
 from flask_paginate import Pagination, get_page_parameter
 from datetime import datetime
 import requests
+from app import app
+from app import login
+from app import models
+from app.models import Category, User, Product, Shopping_cart, Order, ProductImage
+from app import db
 
 
-
-
-app = Flask(__name__)
-bootstrap = Bootstrap(app)
-login = LoginManager(app)
-app.config['SECRET_KEY']='gvpTrsDaf5vgzIzdzC2XKA'
-
-#DATABASE location
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///webshopDB.sqlite'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #kako bi se koristilo manje memorije
-app.config['SQLALCHEMY_ECHO'] = True
-#db je objekt instanciran od klase SQLAlchemy, predstavlja bazu i pruza
-#pristup svim funkcijama flask sqlalchemya
-db = SQLAlchemy(app)
-
-
-
-#DATABASE
-class Category(db.Model):
-   __tablename__= "category"
-   id = db.Column(db.Integer, primary_key=True)
-   name = db.Column(db.String, nullable=False)
-   products = db.relationship("Product", backref="category", lazy="dynamic" )
-  # image = db.Column(db.String, nullable=False)
-
-order_product = db.Table('order_product',  
-   db.Column('order_id', db.Integer, db.ForeignKey('order.id')),
-   db.Column('product_id', db.Integer, db.ForeignKey('product.id')))
-
-class Product(db.Model):
-   __tablename__= "product"
-   id = db.Column(db.Integer, primary_key=True)
-   name = db.Column(db.String, unique=True, nullable=False)
-   web_name = db.Column(db.String, unique=True)
-   category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=True)
-   price = db.Column(db.Numeric(3,2), nullable=False)
-   image = db.Column(db.String, nullable=False)
-   images = db.relationship('ProductImage', backref='product')
- # color = db.Column(db.String, nullable=True)
-   shopping_cart = db.relationship('Shopping_cart', backref='product',)
-  
-
-class ProductImage(db.Model):
-   __tablename__= "product_image"
-   id = db.Column(db.Integer, primary_key=True)
-   product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
-   image = db.Column(db.String, nullable=False)
-   
-
-class Customer (UserMixin, db.Model):
-   __tablename__= "customer"
-   id = db.Column(db.Integer, primary_key=True)
-   name = db.Column(db.String(100), nullable=False)
-   surname = db.Column(db.String(100), nullable=False)
-   email = db.Column(db.String, nullable=False)
-   password = db.Column(db.Integer, nullable=False)
-   telephone = db.Column(db.String, nullable=False)
-   address = db.Column(db.String(200))
-   shopping_cart = db.relationship('Shopping_cart', backref='customer', uselist=False)
-   # order = db.relationship('Order', backref='customer')
-
-
-   def check_password(self, password):
-      return check_password_hash(self.password, password)
-
-class Shopping_cart(db.Model):
-   __tablename__= "shopping_cart"
-   id = db.Column(db.Integer, primary_key=True)
-   quantity = db.Column(db.Integer, nullable=False) 
-   customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
-   product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False,)
-
-
-class Order(db.Model):
-   __tablename__= "order"
-   id = db.Column(db.Integer, primary_key=True)
-   create_date = db.Column(db.Date)
-   update_date = db.Column(db.Date)
-   payment_method = db.Column(db.String, nullable=False)
-   total = db.Column(db.Numeric(3,2), nullable=False)
-   order_number = db.Column(db.Integer, nullable=False)
-   customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
-   products = db.relationship('Product', secondary=order_product, backref=db.backref('orders', lazy='dynamic'))
 
    
 class RegistrationForm(FlaskForm):
-   name = StringField('Name', validators=[DataRequired()])
-   surname = StringField('Surname', validators=[DataRequired()])
+   name = StringField('Ime', validators=[DataRequired()])
+   surname = StringField('Prezime', validators=[DataRequired()])
    email = StringField('Email', validators=[DataRequired(), Email()])
-   password = PasswordField('Password', validators=[DataRequired()])
-   telephone =StringField('Telephone', validators=[DataRequired()])
-   address = StringField('Addresse',validators=[DataRequired()])
-   submit = SubmitField('Register', validators=[DataRequired()])
+   password = PasswordField('Lozinka', validators=[DataRequired()])
+   telephone =StringField('Telefon', validators=[DataRequired()])
+   address = StringField('Adresa',validators=[DataRequired()])
+   submit = SubmitField('Registriraj se', validators=[DataRequired()])
 
    def validate_email(self, email):
-      customer = Customer.query.filter_by(email=email.data).first()
-      if customer is not None:
+      user= User.query.filter_by(email=email.data).first()
+      if user is not None:
          raise ValidationError('Please use a different email address.')
 
 class LoginForm(FlaskForm):
    email = StringField('Email', validators=[DataRequired()])
-   password = PasswordField('Password', validators=[DataRequired()])
-   remember_me = BooleanField('Remember me')
-   submit = SubmitField('Login')
+   password = PasswordField('Lozinka', validators=[DataRequired()])
+   remember_me = BooleanField('Zapamti me')
+   submit = SubmitField('Logiraj se')
 
 
 class EditProfileForm(FlaskForm):
@@ -133,14 +54,14 @@ class EditProfileForm(FlaskForm):
 
 @login.user_loader
 def load_user(id):
-    return Customer.query.get(int(id))
+    return User.query.get(int(id))
 
 @app.route('/')
 def index():
    #postavljanje vrijednosti brojača košarice(ikona)
    session["cartQuantity"]=0
    if current_user.is_authenticated:
-     result=Shopping_cart.query.filter(Shopping_cart.customer_id==current_user.id).all()
+     result=Shopping_cart.query.filter(Shopping_cart.user_id==current_user.id).all()
      for i in result:
         session["cartQuantity"]= int(session["cartQuantity"]) + int(i.quantity )
       
@@ -174,18 +95,18 @@ def product_detail(id):
       productId= request.form.get('productId')
       if current_user.is_authenticated:
          quantity = request.form.get('quantity')
-         customer_id = current_user.id  
+         user_id = current_user.id  
 
          #dohvacanje kosarice trenutnog kupca    
-         shopping_cart_customer = Shopping_cart.query.filter(Shopping_cart.customer_id==customer_id, Shopping_cart.product_id==productId).first()
-         if shopping_cart_customer is None:
-            shopping_cart = Shopping_cart(quantity=quantity, customer_id = customer_id, product_id=productId)
+         shopping_cart_user = Shopping_cart.query.filter(Shopping_cart.user_id==user_id, Shopping_cart.product_id==productId).first()
+         if shopping_cart_user is None:
+            shopping_cart = Shopping_cart(quantity=quantity, user_id = user_id, product_id=productId)
             db.session.add(shopping_cart)
             db.session.commit()           
          else:
             # azuriranje kolicine dohvacene kosarice
-            shopping_cart_customer.quantity= int(shopping_cart_customer.quantity)+ int(quantity)   
-            db.session.add(shopping_cart_customer)
+            shopping_cart_user.quantity= int(shopping_cart_user.quantity)+ int(quantity)   
+            db.session.add(shopping_cart_user)
             db.session.commit()
 
          session["cartQuantity"] = int(session["cartQuantity"]) + int(quantity)        
@@ -205,8 +126,8 @@ def register():
       return redirect(url_for('index'))
    form = RegistrationForm()
    if form.validate_on_submit():
-      customer = Customer(name=form.name.data, surname=form.surname.data,email=form.email.data,  password=generate_password_hash(form.password.data), telephone=form.telephone.data, address=form.address.data)
-      db.session.add(customer)
+      user = User(name=form.name.data, surname=form.surname.data,email=form.email.data,  password=generate_password_hash(form.password.data), telephone=form.telephone.data, address=form.address.data)
+      db.session.add(user)
       db.session.commit()
 
       flash('Uspješno ste registrirani!')
@@ -222,11 +143,11 @@ def login():
       
    form = LoginForm()
    if form.validate_on_submit():
-      customer = Customer.query.filter_by(email=form.email.data).first()
-      if customer is None or not customer.check_password(form.password.data):
+      user = User.query.filter_by(email=form.email.data).first()
+      if user is None or not user.check_password(form.password.data):
          flash('Invalid email or password')
          return redirect(url_for('login'))
-      login_user(customer, remember=form.remember_me.data)
+      login_user(user, remember=form.remember_me.data)
       return redirect(url_for('index'))     
    return render_template('login.html', title='Sign in', form=form)
 
@@ -234,15 +155,15 @@ def login():
 @app.route('/profile/<email>')
 @login_required
 def profile(email):
-   customer = Customer.query.filter_by(email=email).first()
-   result = Order.query.filter(Order.customer_id==customer.id).first() 
-   return render_template('profile.html', customer=customer, result=result)
+   user = User.query.filter_by(email=email).first()
+   result = Order.query.filter(Order.user_id==user.id).all()
+   return render_template('profile.html', user=user, result=result)
 
 
 @app.route('/shopping_cart')
 def shopping_cart():  
    if current_user.is_authenticated:
-      result= db.session.query(Shopping_cart).join(Product).filter(Shopping_cart.customer_id==current_user.id).all()  
+      result= db.session.query(Shopping_cart).join(Product).filter(Shopping_cart.user_id==current_user.id).all()  
       total_amount= 0
       for i in result:
          total_amount= total_amount+(i.quantity*i.product.price)
@@ -260,7 +181,7 @@ def logout():
 @app.route('/order', methods=['GET','POST'])
 @login_required
 def order():  
-   result= db.session.query(Shopping_cart).join(Product).filter(Shopping_cart.customer_id==current_user.id).all()   
+   result= db.session.query(Shopping_cart).join(Product).filter(Shopping_cart.user_id==current_user.id).all()   
    total_amount= 0
    if result  != None:
       for i in result:
@@ -294,14 +215,14 @@ def order():
 
 @app.route('/order_complete')
 def completeOrder():
-   result= db.session.query(Shopping_cart).join(Product).filter(Shopping_cart.customer_id==current_user.id).all()  
+   result= db.session.query(Shopping_cart).join(Product).filter(Shopping_cart.user_id==current_user.id).all()  
    order_number = db.session.query(Order.order_number).count()
    total_amount= 0
    order_number = order_number + 1
    for i in result:
       total_amount= total_amount+(i.quantity*i.product.price) 
 
-   order = Order(create_date=datetime.now(), update_date=datetime.now(), payment_method="Plaćanje pouzećem", total=total_amount, order_number=order_number, customer_id=current_user.id)
+   order = Order(create_date=datetime.now(), update_date=datetime.now(), payment_method="Plaćanje pouzećem", total=total_amount, order_number=order_number, user_id=current_user.id)
    db.session.add(order)
    db.session.commit()
  
@@ -313,12 +234,12 @@ def completeOrder():
 
    db.session.commit()
       
-   customer =  Customer.query.filter(Customer.id==current_user.id).first()
-   send_simple_message(customer, result,order_number, total_amount)
+   user =  User.query.filter(User.id==current_user.id).first()
+   send_simple_message(user, result,order_number, total_amount)
 
    #brisanje košarice
 
-   shopping_cart=Shopping_cart.query.filter(Shopping_cart.customer_id==current_user.id).delete()
+   shopping_cart=Shopping_cart.query.filter(Shopping_cart.user_id==current_user.id).delete()
    db.session.commit()
 
    session["cartQuantity"]=0
@@ -330,13 +251,13 @@ def completeOrder():
 
 @app.route('/orderOnmail')
 def orderOnmail():
-   result= db.session.query(Shopping_cart).join(Product).filter(Shopping_cart.customer_id==current_user.id).all()  
+   result= db.session.query(Shopping_cart).join(Product).filter(Shopping_cart.user_id==current_user.id).all()  
    total_amount= 0
    delivery_cost =30
    for i in result:
       total_amount= total_amount+(i.quantity*i.product.price)+ delivery_cost
 
-   customer =  Customer.query.filter(Customer.id==current_user.id).first()
+   user =  User.query.filter(User.id==current_user.id).first()
    # form = EditProfileForm()
    # form.name.data = current_user.name
    # form.surname.data = current_user.surname
@@ -344,21 +265,21 @@ def orderOnmail():
    # form.telephone.data = current_user.telephone
    # form.address.data = current_user.address
 
-   return render_template('orderOnmail.html', form=customer, result=result, total_amount=total_amount)
+   return render_template('orderOnmail.html', form=user, result=result, total_amount=total_amount)
 
 
 
 
-def send_simple_message(customer, result, order_number, total_amount):
+def send_simple_message(user, result, order_number, total_amount):
 
 
-   ix_html = render_template("orderOnmail.html", form=customer, result=result, order_number=order_number, total_amount=total_amount ) 
+   ix_html = render_template("orderOnmail.html", form=user, result=result, order_number=order_number, total_amount=total_amount ) 
    return requests.post(
       "https://api.mailgun.net/v3/sandbox94f4a2d744044e6d8531292a69293626.mailgun.org/messages",
 		auth=("api", "847133b294adba022303af05788f4ca5-7cd1ac2b-df76f17b"),
 		data={
          "from": "Tanja <mailgun@sandbox94f4a2d744044e6d8531292a69293626.mailgun.org>",
-			"to": [customer.email],
+			"to": [user.email],
 			"subject": "Hello",
 			"html": ix_html
        
@@ -372,7 +293,7 @@ def deleteItem(id):
    db.session.commit()
 
    session["cartQuantity"]=0
-   result=Shopping_cart.query.filter(Shopping_cart.customer_id==current_user.id).all()
+   result=Shopping_cart.query.filter(Shopping_cart.user_id==current_user.id).all()
    for i in result:
       session["cartQuantity"]= int(session["cartQuantity"]) + int(i.quantity )
 
@@ -383,14 +304,33 @@ def deleteItem(id):
 def about():  
    return render_template('about.html')
 
-@app.route('/contact')
-def contact():  
+@app.route('/contact', methods=['GET','POST'])
+def contact():
+   if request.method =="POST":  
+      email=request.form.get('email')
+      msg=request.form.get('msg')
+      contact_send_email(email, msg)
    return render_template('contact.html')
 
 
+#nefunkcionalno
+def contact_send_email(email, msg):
+
+   return requests.post(
+      "https://api.mailgun.net/v3/sandbox94f4a2d744044e6d8531292a69293626.mailgun.org/messages",
+		auth=("api", "847133b294adba022303af05788f4ca5-7cd1ac2b-df76f17b"),
+		data={
+         "from": "Tanja <mailgun@sandbox94f4a2d744044e6d8531292a69293626.mailgun.org>",
+			"to": [ana.strenja88@gmail.com],
+			"subject": "Poruka s kontakt forme",
+			"text": 'Korisnik'+email+ 'je poslao poruku' +msg
+       
+      })
 
 
-if __name__ == "__main__":
-   app.run()
+
+
+# if __name__ == "__main__":
+#    app.run()
 
 

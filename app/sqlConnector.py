@@ -30,7 +30,7 @@ conn.execute("INSERT INTO product VALUES (11, 'set_limete_gold', 'Set Limette Go
 conn.execute("INSERT INTO product VALUES (12, 'set_mint_gold', 'Set Mint Gold', 5, 120, 'static/images/set_mint_gold.jpg' );")
 conn.execute("INSERT INTO product VALUES (13, 'set_ocher_yellow_gold', 'Set Ocher Yellow Gold', 5, 120, 'static/images/set_ocher_yellow_gold.jpg' );")
 conn.execute("INSERT INTO product VALUES (14, 'set_orange_gold', 'Set Orange Gold', 5, 120, 'static/images/set_orange_gold.jpg' );")
-conn.execute("INSERT INTO product VALUES (15, 'set_pastel_yellow_gold', 'Set Pastel Yellow Gold', 5, 120, 'static/images/set_pastel_yellow.jpg' );")
+conn.execute("INSERT INTO product VALUES (15, 'set_pastel_yellow_gold', 'Set Pastel Yellow Gold', 5, 120, 'static/images/set_pastel_yellow_gold.jpg' );")
 conn.execute("INSERT INTO product VALUES (16, 'set_peachy_gold', 'Set Peachy Gold', 5, 120, 'static/images/set_peachy_gold.jpg' );")
 conn.execute("INSERT INTO product VALUES (17, 'set_pink_brown_gold', 'Set Pink Brown Gold', 5, 120, 'static/images/set_pink_brown_gold.jpg' );")
 conn.execute("INSERT INTO product VALUES (18, 'set_pink_gold', 'Set Pink Gold', 5, 120, 'static/images/set_pink_gold.jpg' );")
@@ -131,25 +131,6 @@ conn.execute("INSERT INTO product VALUES (104, 'vi_41', 'Petroleum Gold', 2, 80,
 conn.execute("INSERT INTO product VALUES (105, 'vi_42', 'Lilac Wave', 2, 80, 'static/images/vi_42.jpg' );")
 conn.execute("INSERT INTO product VALUES (106, 'vi_43', 'Lilac Shade', 2, 80, 'static/images/vi_43.jpg' );")
 conn.execute("INSERT INTO product VALUES (107, 'vi_44', 'Tiffany', 2, 80, 'static/images/vi_44.jpg' );")
-
-
-
-
-
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (1, 25, 'static/images/jed_1_1.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (2, 25, 'static/images/jed_1_2.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (3, 26, 'static/images/jed_2_1.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (4, 26, 'static/images/jed_2_2.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (5, 27, 'static/images/jed_3_1.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (6, 27, 'static/images/jed_3_2.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (7, 28, 'static/images/jed_4_1.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (8, 28, 'static/images/jed_4_2.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (9, 29, 'static/images/jed_5_1.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (10, 29, 'static/images/jed_5_2.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (11, 30, 'static/images/jed_6_1.jpg');")
-conn.execute("INSERT INTO 'product_image' (id, product_id, image) VALUES (12, 30, 'static/images/jed_6_2.jpg');")
-
-
 
 
 
