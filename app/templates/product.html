@@ -23,7 +23,8 @@
 					  </button>
 					{% for i in categories %}
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-					  <a href="/product/{{i.id}}">{{ i.name }}</a>				
+					  <a href="{{ url_for('product', id=i.id)}}">{{ i.name }}</a>				
+					  
 					</button>
 					{% endfor %}
 
@@ -44,7 +45,7 @@
 				</div>
 				
 				<!-- Search product -->
-				<form action="product" method="POST">
+				<form action="product" method="GET">
 				<div class="dis-none panel-search w-full p-t-10 p-b-15">
 					<div class="bor8 dis-flex p-l-15">
 						<button  type="submit" class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
@@ -71,13 +72,13 @@
 								</li>
 
 								<li class="p-b-6">
-									<a href="/product?sort=asc" class="filter-link stext-106 trans-04">
+									<a href="/product?sort=desc" class="filter-link stext-106 trans-04">
 										Od veće prema manjoj
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="/product?sort=desc" class="filter-link stext-106 trans-04">
+									<a href="/product?sort=asc" class="filter-link stext-106 trans-04">
 										Od manje prema većoj
 									</a>
 								</li>
@@ -100,7 +101,7 @@
 					<div class="block2">
 
 						<div class="block2-pic hov-img0">
-							<img src="/{{i.image}}" alt="IMG-PRODUCT"  width="280px" height="370px">							
+							<a href="/product_detail/{{i.id}}"><img src="/{{i.image}}" alt="IMG-PRODUCT"  width="300px" height="320px"></a>					
 						</div>
 
 						<div class="block2-txt flex-w flex-t p-t-14">
@@ -133,15 +134,20 @@
 
 		<div class="row">
 		  <div class="col text-center">
+				{% set category_id=0  %}
+				{% if categoryId %}
+				{% set category_id=categoryId  %}
+				{% endif %}
 				{% if productList.has_prev %}
-				<a href="{{url_for('product', id=productList.items[0].category_id,page=productList.prev_num)}}" class="btn btn-outline-info btn-sm mt-3">Previus</a>
+				<a href="{{url_for('product', id= category_id, keyword=request.args.get('keyword'),sort=request.args.get('sort'), page=productList.prev_num)}}" class="btn btn-outline-info btn-sm mt-3">Previus</a>
 				{% endif %}
 				{% for page_num in productList.iter_pages() %}
 				{% if page_num %}
 				{% if productList.page == page_num %}
-				<a href="{{url_for('product',id=productList.items[0].category_id, page=page_num)}}" class="btn btn-info btn-sm mt-3">{{page_num}}</a>
+				
+				<a href="{{url_for('product', id=category_id, keyword=request.args.get('keyword'),sort=request.args.get('sort'), page=page_num)}}" class="btn btn-info btn-sm mt-3">{{page_num}}</a>
 				{% else %}
-				<a href="{{url_for('product', id=productList.items[0].category_id,page=page_num)}}" class="btn btn-outline-info btn-sm mt-3">{{page_num}}</a>
+				<a href="{{url_for('product', id=category_id, keyword=request.args.get('keyword'),sort=request.args.get('sort'), page=page_num)}}" class="btn btn-outline-info btn-sm mt-3">{{page_num}}</a>
 				{% endif %}
 				{% else %}
 				...
@@ -149,7 +155,7 @@
 				{% endfor %}
 
 				{% if productList.has_next %}
-				<a href="{{url_for('product', id=productList.items[0].category_id,page=productList.next_num)}}" class="btn btn-outline-info btn-sm mt-3">Next</a>
+				<a href="{{url_for('product', id=category_id, keyword=request.args.get('keyword'),sort=request.args.get('sort'),page=productList.next_num)}}" class="btn btn-outline-info btn-sm mt-3">Next</a>
 				{% endif %}
 
 			</div>			

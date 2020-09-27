@@ -6,7 +6,6 @@ db.echo = True
 conn = db.connect() 
 # Otvaramo transakciju
 
- 
 #punjenje kategorija
 
 conn.execute("INSERT INTO 'category' (id, name) VALUES (1, 'Jednobojne narukvice');")
@@ -131,6 +130,49 @@ conn.execute("INSERT INTO product VALUES (104, 'vi_41', 'Petroleum Gold', 2, 80,
 conn.execute("INSERT INTO product VALUES (105, 'vi_42', 'Lilac Wave', 2, 80, 'static/images/vi_42.jpg' );")
 conn.execute("INSERT INTO product VALUES (106, 'vi_43', 'Lilac Shade', 2, 80, 'static/images/vi_43.jpg' );")
 conn.execute("INSERT INTO product VALUES (107, 'vi_44', 'Tiffany', 2, 80, 'static/images/vi_44.jpg' );")
+
+ 
+
+
+#privjesci
+conn.execute("INSERT INTO product VALUES (108, 'pr_01', 'Rudder Red White', 4, 50, 'static/images/pr_01.jpg' );")
+conn.execute("INSERT INTO product VALUES (109, 'pr_02', 'Rudder Orange', 4, 50, 'static/images/pr_02.jpg' );")
+conn.execute("INSERT INTO product VALUES (110, 'pr_03', 'Rudder Red', 4, 50, 'static/images/pr_03.jpg' );")
+conn.execute("INSERT INTO product VALUES (111, 'pr_04', 'Rudder Pink Blue', 4, 50, 'static/images/pr_04.jpg' );")
+conn.execute("INSERT INTO product VALUES (112, 'pr_05', 'Anchor Pink', 4, 50, 'static/images/pr_05.jpg' );")
+conn.execute("INSERT INTO product VALUES (113, 'pr_06', 'Rudder Pink', 4, 50, 'static/images/pr_06.jpg' );")
+conn.execute("INSERT INTO product VALUES (114, 'pr_07', 'Anchor Light Blue', 4, 50, 'static/images/pr_07.jpg' );")
+conn.execute("INSERT INTO product VALUES (115, 'pr_08', 'Anchor Brown', 4, 50, 'static/images/pr_08.jpg' );")
+conn.execute("INSERT INTO product VALUES (116, 'pr_09', 'Anchor Orange', 4, 50, 'static/images/pr_09.jpg' );")
+conn.execute("INSERT INTO product VALUES (117, 'pr_10', 'Anchor Black', 4, 50, 'static/images/pr_10.jpg' );")
+conn.execute("INSERT INTO product VALUES (118, 'pr_11', 'Anchor Orange Light', 4, 50, 'static/images/pr_11.jpg' );")
+conn.execute("INSERT INTO product VALUES (119, 'pr_12', 'Anchor Blue', 4, 50, 'static/images/pr_12.jpg' );")
+conn.execute("INSERT INTO product VALUES (120, 'pr_13', 'Star Red', 4, 45, 'static/images/pr_13.jpg' );")
+conn.execute("INSERT INTO product VALUES (121, 'pr_14', 'Star Green', 4, 45, 'static/images/pr_14.jpg' );")
+conn.execute("INSERT INTO product VALUES (122, 'pr_15', 'Star Light Green', 4, 45, 'static/images/pr_15.jpg' );")
+conn.execute("INSERT INTO product VALUES (123, 'pr_16', 'Star Pink', 4, 45, 'static/images/pr_16.jpg' );")
+conn.execute("INSERT INTO product VALUES (124, 'pr_17', 'Star Yellow', 4, 45, 'static/images/pr_17.jpg' );")
+conn.execute("INSERT INTO product VALUES (125, 'pr_18', 'Star Light Pink', 4, 45, 'static/images/pr_18.jpg' );")
+conn.execute("INSERT INTO product VALUES (126, 'pr_19', 'Anchor Sea', 4, 50, 'static/images/pr_19.jpg' );")
+conn.execute("INSERT INTO product VALUES (127, 'pr_20', 'Boat', 4, 50, 'static/images/pr_20.jpg' );")
+conn.execute("INSERT INTO product VALUES (128, 'pr_21', 'Anchor White', 4, 50, 'static/images/pr_21.jpg' );")
+conn.execute("INSERT INTO product VALUES (129, 'pr_22', 'Boat Pink', 4, 50, 'static/images/pr_22.jpg' );")
+conn.execute("INSERT INTO product VALUES (130, 'pr_23', 'Moon', 4, 50, 'static/images/pr_23.jpg' );")
+conn.execute("INSERT INTO product VALUES (131, 'pr_24', 'Winkles', 4, 60, 'static/images/pr_24.jpg' );")
+conn.execute("INSERT INTO product VALUES (132, 'pr_25', 'Winkle', 4, 60, 'static/images/pr_25.jpg' );")
+conn.execute("INSERT INTO product VALUES (133, 'pr_26', 'Winkle Gold', 4, 60, 'static/images/pr_26.jpg' );")
+conn.execute("INSERT INTO product VALUES (134, 'pr_27', 'Treble Cref', 4, 50, 'static/images/pr_27.jpg' );")
+conn.execute("INSERT INTO product VALUES (135, 'pr_28', 'Flower Pink', 4, 35, 'static/images/pr_28.jpg' );")
+conn.execute("INSERT INTO product VALUES (136, 'pr_29', 'Flower Green', 4, 35, 'static/images/pr_29.jpg' );")
+conn.execute("INSERT INTO product VALUES (137, 'pr_30', 'Key', 4, 40, 'static/images/pr_30.jpg' );")
+conn.execute("INSERT INTO product VALUES (138, 'pr_31', 'Paw', 4, 40, 'static/images/pr_31.jpg' );")
+conn.execute("INSERT INTO product VALUES (139, 'pr_32', 'Leaf', 4, 40, 'static/images/pr_32.jpg' );")
+conn.execute("INSERT INTO product VALUES (140, 'pr_33', 'Angel Gold Black', 4, 60, 'static/images/pr_33.jpg' );")
+conn.execute("INSERT INTO product VALUES (141, 'pr_34', 'Angel Pink', 4, 60, 'static/images/pr_34.jpg' );")
+conn.execute("INSERT INTO product VALUES (142, 'pr_35', 'Anchor Black Gold', 4, 50, 'static/images/pr_35.jpg' );")
+conn.execute("INSERT INTO product VALUES (143, 'pr_36', 'Shell White', 4, 60, 'static/images/pr_36.jpg' );")
+conn.execute("INSERT INTO product VALUES (144, 'pr_37', 'Shell Blue', 4, 60, 'static/images/pr_37.jpg' );")
+conn.execute("INSERT INTO product VALUES (145, 'pr_38', 'Shell Peach', 4, 60, 'static/images/pr_38.jpg' );")
 
 
 

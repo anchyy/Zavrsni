@@ -68,22 +68,31 @@ def index():
    return render_template('index.html', categories=categories, products=products, productRandom=productRandom)
  
 
-@app.route('/product', methods=["GET","POST"] )
-@app.route('/product/<id>', methods=["GET","POST"])
-def product(id=None):
-   page = request.args.get('page', 1, type=int)
-   categories = Category.query.all()
-   if request.method == "POST":
-      search_word=request.form.get('keyword')
-      # result = Product.query.filter(Product.web_name == search_word).order_by(Product.price.desc()).paginate(page=page, per_page=16)
-      result = Product.query.filter(Product.web_name == search_word).paginate(page=page, per_page=16)
-      return render_template('product.html', categories=categories, productList = result)  
+@app.route('/product', methods=["GET","POST"] ) 
+@app.route('/product/<id>', methods=["GET","POST"]) 
+def product(id=None ):
    
-   if id is None:
-      result = Product.query.order_by(Product.price.desc()).paginate(page=page, per_page=16)
+   page = request.args.get('page', 1, type=int) 
+   keyword = request.args.get('keyword', type=str) 
+   sort = request.args.get('sort', type=str) 
+   categories = Category.query.all()
+   if keyword is not None:
+      result = Product.query.filter(Product.web_name.contains(keyword)).paginate(page=page, per_page=16)
+      return render_template('product.html', categoryId=id, categories=categories, productList = result)  
+   # if request.method == "POST":
+   #    search_word=request.form.get('keyword')
+   #    # result = Product.query.filter(Product.web_name == search_word).order_by(Product.price.desc()).paginate(page=page, per_page=16)
+   #    result = Product.query.filter(Product.web_name.contains(search_word)).paginate(page=page, per_page=16)
+   #    return render_template('product.html', categoryId=id, categories=categories, productList = result)  
+ 
+   if id is None or id  == '0':
+      if sort is not None and sort == 'desc':
+         result = Product.query.order_by(Product.price.desc()).paginate(page=page, per_page=16)
+      else:
+         result = Product.query.order_by(Product.price.asc()).paginate(page=page, per_page=16)
       return render_template('product.html', categories=categories, productList = result)   
    result = Product.query.filter(Product.category_id==id).paginate(page=page, per_page=16)
-   return render_template('product.html', categories=categories, productList = result)
+   return render_template('product.html', categoryId=id, categories=categories, productList = result)
 
 
 @app.route('/product_detail/<id>', methods=["GET","POST"])
