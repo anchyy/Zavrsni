@@ -11,16 +11,16 @@ U dokumentu requirements.txt navedeni su potrebni paketi koji su korišteni pri 
 
 Struktura aplikacije sastoji se od sljedećih elemenata:
 
-• config.py – sadrži konfiguracijske postavke aplikacije
-• requirements.txt – tekstualna datoteka koja služi za instalaciju svih potrebnih biblioteka
-• app/ - sadrži glavnu aplikaciju i pod aplikacije te bazu podataka:
-• __init__.py
-• main.py
-• models.py
-• sqlConnector.py
-• webshopDB.sqlite
-• static/ - datoteke CSS, JS, fontovi 
-• templates/ - HTML predlošci
+> - config.py – sadrži konfiguracijske postavke aplikacije
+> - requirements.txt – tekstualna datoteka koja služi za instalaciju svih potrebnih biblioteka
+> - app/ - sadrži glavnu aplikaciju i pod aplikacije te bazu podataka:
+> -__init__.py
+> - main.py
+> -models.py
+> - sqlConnector.py
+> - webshopDB.sqlite
+> - static/ - datoteke CSS, JS, fontovi 
+> -templates/ - HTML predlošci
 
 
 ## Tok rada aplikacije
@@ -39,8 +39,8 @@ Opisani postupak predstavlja tok događaja aplikacije.
 
 Potrebno je imati instaliranu verziju Pythona minimalno 3.7
 
-git clone https://github.com/anchyy/Zavrsni.git
-cd Zavrsni
-pip intall -r requirements.txt
-flask run
+- git clone https://github.com/anchyy/Zavrsni.git
+- cd Zavrsni
+- pip intall -r requirements.txt
+- flask run
 
