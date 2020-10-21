@@ -14,13 +14,13 @@ Struktura aplikacije sastoji se od sljedećih elemenata:
 > - config.py – sadrži konfiguracijske postavke aplikacije
 > - requirements.txt – tekstualna datoteka koja služi za instalaciju svih potrebnih biblioteka
 > - app/ - sadrži glavnu aplikaciju i pod aplikacije te bazu podataka:
-> -__init__.py
+> - __init__.py
 > - main.py
-> -models.py
+> - models.py
 > - sqlConnector.py
 > - webshopDB.sqlite
 > - static/ - datoteke CSS, JS, fontovi 
-> -templates/ - HTML predlošci
+> - templates/ - HTML predlošci
 
 
 ## Tok rada aplikacije
