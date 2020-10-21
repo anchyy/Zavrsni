@@ -9,14 +9,19 @@ U dokumentu requirements.txt navedeni su potrebni paketi koji su korišteni pri 
 
 ## Struktura
 
-Projekt ima svoje pripadajuće virtualno okruženje u mapi venv.
-Ostali elementi projekta su:
-static - svi dodaci korištenog bootstrapa i potrebne slike
-templates - html datoteka
-main - glavna datoteka u koju je smješten konfiguracija projekta, modeli baze i view funkcije
-requirements.txt - potrebni paketi
-sqlConnector.py - datoteka za punjenje baze potrebnim podacima
-webshopDB.sqlite - baza za pohranu podataka
+Struktura aplikacije sastoji se od sljedećih elemenata:
+
+• config.py – sadrži konfiguracijske postavke aplikacije
+• requirements.txt – tekstualna datoteka koja služi za instalaciju svih potrebnih biblioteka
+• app/ - sadrži glavnu aplikaciju i pod aplikacije te bazu podataka:
+• __init__.py
+• main.py
+• models.py
+• sqlConnector.py
+• webshopDB.sqlite
+• static/ - datoteke CSS, JS, fontovi 
+• templates/ - HTML predlošci
+
 
 ## Tok rada aplikacije
 
@@ -29,3 +34,13 @@ Nakon toga klikom na ikonu košarice može otići na blagajnu. Radi jednostavnos
 aplikacije stavljeno je plačanje pouzečem. U košarici ima pregled svojih proizvoda sa količinom i cijenom.
 Ukoliko se predomisli može ukloniti određeni artikal. Nakon potvrde narudžbe korisniku stiže email sa brojem narudžbe i obavijesti.
 Opisani postupak predstavlja tok događaja aplikacije.
+
+## Instalacija i pokretanje aplikacije
+
+Potrebno je imati instaliranu verziju Pythona minimalno 3.7
+
+git clone https://github.com/anchyy/Zavrsni.git
+cd Zavrsni
+pip intall -r requirements.txt
+flask run
+

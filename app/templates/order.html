@@ -13,9 +13,10 @@
 			<div class="row" style="margin-top: 20px;">
 				{% if result %}
 			</br>
-				<div class="col-sm-4 ">
-					<h3>Podaci za dostavu</h3>
-					<div class="form-control">
+				<div class="col-sm-4 " >
+					<div class="card"  style="background-color: #aab7bf3b;">
+						<div class="card-body">
+						<h3>Podaci za dostavu</h3><br>
 					<form action="order" method="POST" >
 						<ul class="lista">
 							
@@ -25,15 +26,17 @@
 									{{ form.name.label }}
 									{{ form.name(class="form-control"  )}}
 								</li>
+							<br>
 								<li>
 									{{ form.surname.label }}
 									{{ form.surname(class="form-control"  )}}
 								</li>
-							
+						<br>
 								<li>
 									{{ form.telephone.label }}
 									{{ form.telephone(class="form-control"  )}}
 								</li>
+								<br>
 								<li>
 									{{ form.address.label }}
 									{{ form.address(class="form-control"  ) }}
@@ -41,22 +44,28 @@
 							
 						</ul>
 					</br>
-					<button type="submit">{{ form.submit(class='btn btn-default ') }}</button>
+					<button type="submit">{{ form.submit(class='btn btn-primary ') }}</button>
 				
 					</form>
 			</div></div>
-
+				</div>
 
 			<div class="col-sm-8">
-				<div class="card">
+				<div class="card"  style="background-color: #aab7bf3b;">
 					<div class="card-body">
-						<h3>Metoda dostave</h3> 
+						<h3>Metoda dostave</h3> <br>
 						<p>Hrvatska pošta<br>Hpekspress dostava. 
 						</p>
-						<h3>Informacije o plaćanju</h3>
+						<hr>
+						<h3>Informacije o plaćanju</h3><br>
+						<div class="row" style="margin: 0;">
+							<div class="col-sm-1">
 						<input type="radio" id="" name="" value="cashondelivery" checked>
+					</div>
+					<div class="col-sm-10">
 						<label for="male">Plaćanje pouzećem</label><br>
-						 
+					</div>
+					</div>
 					</div>
 				</div>
 				<hr/>
@@ -102,15 +111,15 @@
 		</br>
 	</div>
 		<hr/>
-
+		     <a href="/order_complete">
 				<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-					<a href="/order_complete">POTVRDI KUPNJU ></a>
-				</button>
+					POTVRDI KUPNJU 
+				</button> </a>
 			
 			</div>
 		 
 			{% else %}
-			<div class="col-sm-12">
+			<div class="col-sm-12" style="height: 191px;">
 			</br>
 			<p>Poštovani, Vaša narudžba je zaprimljena. Hvala na kupnji.</p>
 		</div>

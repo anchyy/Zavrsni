@@ -45,7 +45,7 @@
 				</div>
 				
 				<!-- Search product -->
-				<form action="product" method="GET">
+				<form action="" method="GET">
 				<div class="dis-none panel-search w-full p-t-10 p-b-15">
 					<div class="bor8 dis-flex p-l-15">
 						<button  type="submit" class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
@@ -63,7 +63,10 @@
 							<div class="mtext-102 cl2 p-b-15">
 								Sortiraj prema cijeni
 							</div>
-
+							{% set category_id=0  %}
+							{% if categoryId %}
+							{% set category_id=categoryId  %}
+							{% endif %}
 							<ul>
 								<li class="p-b-6">
 									<a href="#" class="filter-link stext-106 trans-04">
@@ -72,13 +75,13 @@
 								</li>
 
 								<li class="p-b-6">
-									<a href="/product?sort=desc" class="filter-link stext-106 trans-04">
+									<a href="{{url_for('product', id=category_id, keyword=request.args.get('keyword'),sort='desc')}}" class="filter-link stext-106 trans-04">
 										Od veće prema manjoj
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="/product?sort=asc" class="filter-link stext-106 trans-04">
+									<a href="{{url_for('product', id=category_id, keyword=request.args.get('keyword'),sort='asc')}}" class="filter-link stext-106 trans-04">
 										Od manje prema većoj
 									</a>
 								</li>

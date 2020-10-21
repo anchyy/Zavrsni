@@ -69,31 +69,44 @@ def index():
  
 
 @app.route('/product', methods=["GET","POST"] ) 
-@app.route('/product/<id>', methods=["GET","POST"]) 
+@app.route('/product/<id>',methods=["GET","POST"]) 
 def product(id=None ):
-   
+   print ("category id", id)
    page = request.args.get('page', 1, type=int) 
    keyword = request.args.get('keyword', type=str) 
    sort = request.args.get('sort', type=str) 
    categories = Category.query.all()
+   
+
    if keyword is not None:
-      result = Product.query.filter(Product.web_name.contains(keyword)).paginate(page=page, per_page=16)
+      if sort is not None and sort == 'desc':
+         result = Product.query.filter(Product.web_name.contains(keyword)).order_by(Product.price.desc()).paginate(page=page, per_page=16)
+         
+      elif sort is not None and sort == 'asc':
+         result = Product.query.filter(Product.web_name.contains(keyword)).order_by(Product.price.asc()).paginate(page=page, per_page=16)
+      else:
+         result = Product.query.filter(Product.web_name.contains(keyword)).paginate(page=page, per_page=16)
       return render_template('product.html', categoryId=id, categories=categories, productList = result)  
-   # if request.method == "POST":
-   #    search_word=request.form.get('keyword')
-   #    # result = Product.query.filter(Product.web_name == search_word).order_by(Product.price.desc()).paginate(page=page, per_page=16)
-   #    result = Product.query.filter(Product.web_name.contains(search_word)).paginate(page=page, per_page=16)
-   #    return render_template('product.html', categoryId=id, categories=categories, productList = result)  
+         
+   
  
-   if id is None or id  == '0':
+   if id is None or id == "0":
       if sort is not None and sort == 'desc':
          result = Product.query.order_by(Product.price.desc()).paginate(page=page, per_page=16)
-      else:
+      elif sort is not None and sort == 'asc':
          result = Product.query.order_by(Product.price.asc()).paginate(page=page, per_page=16)
-      return render_template('product.html', categories=categories, productList = result)   
-   result = Product.query.filter(Product.category_id==id).paginate(page=page, per_page=16)
-   return render_template('product.html', categoryId=id, categories=categories, productList = result)
-
+      else:
+         result = Product.query.paginate(page=page, per_page=16)
+      return render_template('product.html', categoryId=id, categories=categories, productList = result)   
+   else:
+      if sort is not None and sort == 'desc':
+         result = Product.query.filter(Product.category_id==id).order_by(Product.price.desc()).paginate(page=page, per_page=16)
+      elif sort is not None and sort == 'asc':
+         result = Product.query.filter(Product.category_id==id).order_by(Product.price.asc()).paginate(page=page, per_page=16)
+      else:
+         result = Product.query.filter(Product.category_id==id).paginate(page=page, per_page=16)
+      return render_template('product.html', categoryId=id, categories=categories, productList = result) 
+   
 
 @app.route('/product_detail/<id>', methods=["GET","POST"])
 def product_detail(id): 
@@ -241,8 +254,13 @@ def completeOrder():
    db.session.commit()
       
    user =  User.query.filter(User.id==current_user.id).first()
+
+   #slanje mail-a korisniku
    send_simple_message(user, result,order_number, total_amount)
 
+   #slanje maila adminu-u
+   send_simple_message_to_admin(user, result,order_number, total_amount)
+   
    #brisanje košarice
 
    shopping_cart=Shopping_cart.query.filter(Shopping_cart.user_id==current_user.id).delete()
@@ -264,33 +282,37 @@ def orderOnmail():
       total_amount= total_amount+(i.quantity*i.product.price)+ delivery_cost
 
    user =  User.query.filter(User.id==current_user.id).first()
-   # form = EditProfileForm()
-   # form.name.data = current_user.name
-   # form.surname.data = current_user.surname
-   # # form.email.data = current_user.email
-   # form.telephone.data = current_user.telephone
-   # form.address.data = current_user.address
-
    return render_template('orderOnmail.html', form=user, result=result, total_amount=total_amount)
 
 
 
-
 def send_simple_message(user, result, order_number, total_amount):
-
-
    ix_html = render_template("orderOnmail.html", form=user, result=result, order_number=order_number, total_amount=total_amount ) 
    return requests.post(
-      "https://api.mailgun.net/v3/sandbox94f4a2d744044e6d8531292a69293626.mailgun.org/messages",
-		auth=("api", "847133b294adba022303af05788f4ca5-7cd1ac2b-df76f17b"),
+      "https://api.mailgun.net/v3/sandbox764b7a20056b464abbf6b337b73c933f.mailgun.org/messages",
+		auth=("api", "1af74ecfcf0ac74120b72b1593fd6854-53c13666-8de69346"),
 		data={
-         "from": "Tanja <mailgun@sandbox94f4a2d744044e6d8531292a69293626.mailgun.org>",
+         "from": "Tanja <mailgun@sandbox764b7a20056b464abbf6b337b73c933f.mailgun.org>",
 			"to": [user.email],
 			"subject": "Hello",
 			"html": ix_html
        
       })
 
+
+
+def send_simple_message_to_admin(user, result, order_number, total_amount):
+   ix_html = render_template("orderOnAdmin.html", form=user, result=result, order_number=order_number, total_amount=total_amount ) 
+   return requests.post(
+      "https://api.mailgun.net/v3/sandbox764b7a20056b464abbf6b337b73c933f.mailgun.org/messages",
+		auth=("api", "1af74ecfcf0ac74120b72b1593fd6854-53c13666-8de69346"),
+		data={
+         "from": "Tanja <mailgun@sandbox764b7a20056b464abbf6b337b73c933f.mailgun.org>",
+			"to": ["ana.strenja88@gmail.com"],
+			"subject": "Hello",
+			"html": ix_html
+       
+      })
 
 @app.route('/deleteItem/<id>')
 def deleteItem(id):
@@ -323,13 +345,13 @@ def contact():
 def contact_send_email(email, msg):
 
    return requests.post(
-      "https://api.mailgun.net/v3/sandbox94f4a2d744044e6d8531292a69293626.mailgun.org/messages",
-		auth=("api", "847133b294adba022303af05788f4ca5-7cd1ac2b-df76f17b"),
+      "https://api.mailgun.net/v3/sandbox764b7a20056b464abbf6b337b73c933f.mailgun.org/messages",
+		auth=("api", "1af74ecfcf0ac74120b72b1593fd6854-53c13666-8de69346"),
 		data={
-         "from": "Tanja <mailgun@sandbox94f4a2d744044e6d8531292a69293626.mailgun.org>",
-			"to": [ana.strenja88@gmail.com],
+         "from": "Tanja <mailgun@sandbox764b7a20056b464abbf6b337b73c933f.mailgun.org>",
+			"to": ["ana.strenja88@gmail.com"],
 			"subject": "Poruka s kontakt forme",
-			"text": 'Korisnik'+email+ 'je poslao poruku' +msg
+			"text": 'Korisnik '+email+ "\n"+'\je poslao poruku'+"\n" +msg
        
       })
 
